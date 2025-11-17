@@ -63,13 +63,47 @@ interface Book {
     isAvailable: boolean;
 }
 
-const printBookDetails = (book : Book) : void => {
+const printBookDetails = (book: Book): void => {
     console.log(`Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${book.isAvailable ? "Yes" : "No"}`)
 }
 
 
 
-const getUniqueValues = <T extends number | string >( arr1: T[], arr2: T[]) : T[]  => {
-    
+const getUniqueValues = <T extends number | string>(arr1: T[], arr2: T[]): T[] => {
+    const map: { [key: string]: true } = {};
+    const result: T[] = [];
 
+    const pushUnique = (arr: T[]) => {
+        for (let i = 0; i < arr.length; i++) {
+            const val = arr[i];
+            const key = String(val);
+            if (!map[key]) {
+                map[key] = true;
+                result.push(val);
+            }
+        }
+    };
+
+    pushUnique(arr1);
+    pushUnique(arr2);
+
+    return result;
 }
+
+
+type Product = {
+    name: string;
+    price: number;
+    quantity: number;
+    discount?: number;
+}
+
+const calculateTotalPrice = (product: Product[]): number => {
+
+    const subtotal = product.reduce((subtotal, product) => {
+        return subtotal + product.price * product.quantity;
+    }, 0);
+
+    return subtotal;
+}
+
