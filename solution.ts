@@ -63,7 +63,7 @@ interface Book {
     isAvailable: boolean;
 }
 
-const printBookDetails = (book: Book): void => {
+const printBookDetails = (book: Book) => {
     console.log(`Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${book.isAvailable ? "Yes" : "No"}`)
 }
 
@@ -100,8 +100,10 @@ type Product = {
 
 const calculateTotalPrice = (product: Product[]): number => {
 
-    const subtotal = product.reduce((subtotal, product) => {
-        return subtotal + product.price * product.quantity;
+    const subtotal = product.reduce((acc, product) => {
+        const discountedPrice = product.discount ?  product.price * product.quantity * (1 - product.discount / 100) : product.price * product.quantity;
+
+        return acc + discountedPrice;
     }, 0);
 
     return subtotal;
